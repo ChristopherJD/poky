@@ -908,8 +908,6 @@ def package_qa_check_host_user(path, name, d, elf, messages):
     if path == home or path.startswith(home + os.sep):
         return
 
-    import stat as stat2
-
     try:
         stat = os.lstat(path)
     except OSError as exc:
@@ -926,9 +924,6 @@ def package_qa_check_host_user(path, name, d, elf, messages):
         if stat.st_gid == check_gid:
             package_qa_add_message(messages, "host-user-contaminated", "%s: %s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (pn, package_qa_clean_path(path, d, name), check_gid))
             return False
-        if "/usr/src/debug/tcp-wrappers" in path and "weak_symbols" not in path:
-            if stat2.S_IMODE(stat.st_mode) & stat2.S_IWUSR:
-                bb.error("Fatal perms for %s %s" % (path, stat2.S_IMODE(stat.st_mode)))
     return True
 
 QARECIPETEST[src-uri-bad] = "package_qa_check_src_uri"
