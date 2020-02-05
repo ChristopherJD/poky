@@ -924,6 +924,17 @@ def package_qa_check_host_user(path, name, d, elf, messages):
         if stat.st_gid == check_gid:
             package_qa_add_message(messages, "host-user-contaminated", "%s: %s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (pn, package_qa_clean_path(path, d, name), check_gid))
             return False
+        if "/x86_64-linux/CORE/config.h" in path:
+            with open(path, "r") as f:
+                lines = f.readlines()
+                for l in lines:
+                    if "SIG_SIZE" in l and "36" in l:
+                        bb.error("Fatal sigize 36 found for %s (%s)" % (path, l))
+                    if "I_XLOCALE" in l and l.startswith("#define"):
+                        bb.error("Fatal xlocale header found for %s (%s)" % (path, l))
+                    if "I_QUADMATH" in l and not l.startswith("#define"):
+                        bb.error("Fatal quadmath header not found for %s (%s)" % (path, l))
+
     return True
 
 QARECIPETEST[src-uri-bad] = "package_qa_check_src_uri"
