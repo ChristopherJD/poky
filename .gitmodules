@@ -1,13 +1,13 @@
 [submodule "build"]
 	path = build
-	url = https://github.com/ChristopherJD/raspberrypi_conf
+	url = git@github.com:ChristopherJD/raspberrypi_conf.git
 [submodule "meta-raspberrypi"]
 	path = meta-raspberrypi
 	url = https://github.com/agherzan/meta-raspberrypi
 	branch = zeus
 [submodule "meta-user"]
 	path = meta-user
-	url = https://github.com/ChristopherJD/raspberrypi_meta_user
+	url = git@github.com:ChristopherJD/raspberrypi_meta_user.git
 [submodule "meta-openembedded"]
 	path = meta-openembedded
 	url = https://github.com/openembedded/meta-openembedded.git
